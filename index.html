@@ -392,7 +392,7 @@
       <div class="hero-slides" id="heroSlides" aria-hidden="true"></div>
       <div class="hero-overlay" aria-hidden="true"></div>
       <div class="hero-content">
-        <h1>Happy Valentine&apos;s Day, Beverly</h1>
+        <h1>Happy Valentine&apos;s Day, Beverly ❤️</h1>
         <p>I love you so much ❤️ </p>
         <p class="hero-caption" id="heroCaption"></p>
         <div class="hero-dots" id="heroDots" aria-hidden="true"></div>
@@ -400,21 +400,21 @@
     </section>
 
     <section class="memory-strip" aria-label="Photo memories">
-      <div class="strip-top">My Favorite Memories</div>
+      <div class="strip-top">My Favorite Memories 😍</div>
       <div class="strip-grid" id="stripGrid"></div>
     </section>
 
     <section class="letter-card">
-      <div class="card-top">A Note For Her</div>
+      <div class="card-top">A Note For You 💌🌹✨</div>
       <div class="card-body">
         <p id="intro">Click below and I&apos;ll reveal what&apos;s on my heart for you, Beverly.</p>
         <div class="lines" id="lines"></div>
         <div class="controls">
-          <button class="primary" id="revealBtn">Reveal Message</button>
-          <button class="secondary" id="surpriseBtn">Send More Love</button>
+          <button class="primary" id="revealBtn">Reveal Message 💖</button>
+          <button class="secondary" id="surpriseBtn">Send More Love 🌹</button>
         </div>
         <div class="promise" id="promise">
-          <h2>My Promise</h2>
+          <h2>My Promise 🔒</h2>
           <p>I will keep choosing you, celebrating you, and building beautiful days with you 😘😍🥰. You are the best thing that has ever happened to me 😊🫂. I love you so much ❤️❤️❤️. Ndiri kufadaya murudo! 🐝</p>
         </div>
       </div>
@@ -442,10 +442,11 @@
     );
 
     const messageLines = [
-      "Beverly, you make ordinary moments feel magical.",
-      "Your smile is still my favorite view.",
-      "Loving you is the easiest choice I have ever made.",
-      "Thank you for being my safe place and my adventure."
+      "Beverly, you make ordinary moments feel magical ✨💖.",
+      "Your smile is still my favorite view 😊😍.",
+      "Loving you is the easiest choice I have ever made ❤️🤍.",
+      "Thank you for being my safe place and my adventure 🫂🌍.",
+      "Click Send More Love to see how much I love you ❤️🌹."
     ];
 
     const linesEl = document.getElementById("lines");
@@ -563,7 +564,7 @@
         promise.classList.add("open");
       }
       burstHearts(8);
-      revealBtn.textContent = shown < messageLines.length ? "Reveal More" : "Open My Promise";
+      revealBtn.textContent = shown < messageLines.length ? "Reveal More" : "Open My Promise 🔒 🔒";
     });
 
     surpriseBtn.addEventListener("click", () => {
