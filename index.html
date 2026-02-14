@@ -4,19 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>For My Valentine</title>
+  <link rel="preload" as="image" href="images/beverly_young.jpeg" />
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Manrope:wght@400;600;700&display=swap");
 
     :root {
-      --rose-100: #fff1f5;
-      --rose-200: #ffd9e6;
-      --rose-300: #ffb8cf;
       --rose-500: #ff5f8f;
       --rose-700: #c72b63;
       --wine: #4e1e35;
       --cream: #fff8f2;
       --ink: #2a1720;
-      --shadow: 0 14px 40px rgba(78, 30, 53, 0.25);
+      --card-shadow: 0 14px 40px rgba(78, 30, 53, 0.25);
     }
 
     * {
@@ -74,54 +72,205 @@
     }
 
     .wrap {
-      width: min(960px, 92%);
+      width: min(1020px, 92%);
       margin: 0 auto;
       position: relative;
       z-index: 1;
-      padding: 2.2rem 0 3rem;
+      padding: 2rem 0 3rem;
     }
 
     .hero {
-      text-align: center;
-      padding: 2rem 1rem 1.2rem;
-      animation: fadeUp 1s ease forwards;
+      position: relative;
+      min-height: min(78vh, 780px);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
       opacity: 0;
+      transform: translateY(18px);
+      animation: fadeUp 1s ease forwards;
+      background: #f8dce7;
+      isolation: isolate;
+    }
+
+    .hero-slides,
+    .hero-blur {
+      position: absolute;
+      inset: 0;
+    }
+
+    .hero-blur-img {
+      position: absolute;
+      inset: -8%;
+      width: 116%;
+      height: 116%;
+      object-fit: cover;
+      filter: blur(22px) saturate(1.07);
+      opacity: 0;
+      transform: scale(1.08);
+      transition: opacity 900ms ease, transform 1300ms ease;
+    }
+
+    .hero-blur-img.active {
+      opacity: 0.92;
+      transform: scale(1.03);
+    }
+
+    .hero-slide {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      opacity: 0;
+      transform: scale(1.03);
+      transition: opacity 850ms ease, transform 1200ms ease;
+    }
+
+    .hero-slide.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .hero-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      padding: 1rem;
+      filter: drop-shadow(0 16px 24px rgba(24, 9, 16, 0.3));
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(24, 9, 16, 0.64), rgba(24, 9, 16, 0.2) 36%, rgba(24, 9, 16, 0.42));
+      z-index: 2;
+    }
+
+    .hero-content {
+      position: absolute;
+      left: 50%;
+      bottom: 1rem;
+      transform: translateX(-50%);
+      width: min(92%, 760px);
+      background: rgba(255, 248, 252, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(4px);
+      border-radius: 18px;
+      padding: 1rem 1rem 0.9rem;
+      text-align: center;
+      z-index: 3;
     }
 
     .hero h1 {
       font-family: "Playfair Display", serif;
-      font-size: clamp(2rem, 7vw, 4rem);
-      line-height: 1.08;
+      font-size: clamp(2rem, 6.4vw, 3.8rem);
+      line-height: 1.07;
       color: var(--wine);
-      letter-spacing: 0.02em;
-      margin-bottom: 0.7rem;
+      margin-bottom: 0.55rem;
     }
 
     .hero p {
-      max-width: 640px;
-      margin: 0 auto;
-      font-size: clamp(1rem, 2.5vw, 1.2rem);
       color: #643547;
+      font-size: clamp(0.98rem, 2.3vw, 1.15rem);
     }
+
+    .hero-caption {
+      margin-top: 0.7rem;
+      display: inline-block;
+      color: #fff;
+      background: linear-gradient(135deg, rgba(199, 43, 99, 0.95), rgba(255, 95, 143, 0.92));
+      border-radius: 999px;
+      padding: 0.5rem 0.95rem;
+      font-size: 0.88rem;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 420ms ease, transform 420ms ease;
+    }
+
+    .hero-caption.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hero-dots {
+      margin-top: 0.75rem;
+      display: flex;
+      justify-content: center;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #f2b6c9;
+      transition: transform 250ms ease, background 250ms ease;
+    }
+
+    .dot.active {
+      background: #cc3c71;
+      transform: scale(1.35);
+    }
+
+    .memory-strip {
+      margin-top: 1.6rem;
+      background: linear-gradient(155deg, #fffdfd 0%, var(--cream) 100%);
+      border-radius: 24px;
+      box-shadow: var(--card-shadow);
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(18px);
+      animation: fadeUp 1s 0.2s ease forwards;
+    }
+
+    .strip-top,
+    .card-top {
+      background: linear-gradient(135deg, var(--rose-700), var(--rose-500));
+      color: #fff;
+      padding: 1rem 1.2rem;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    .strip-grid {
+      padding: 1rem;
+      display: grid;
+      gap: 0.75rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .thumb {
+      border-radius: 14px;
+      overflow: hidden;
+      aspect-ratio: 4 / 5;
+      background: #f4d3e0;
+      transform: translateY(6px);
+      opacity: 0;
+      animation: popIn 600ms ease forwards;
+    }
+
+    .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transition: transform 350ms ease;
+      display: block;
+    }
+
+    .thumb:hover img { transform: scale(1.04); }
 
     .letter-card {
       margin-top: 1.6rem;
       background: linear-gradient(155deg, #fffdfd 0%, var(--cream) 100%);
       border-radius: 24px;
-      box-shadow: var(--shadow);
+      box-shadow: var(--card-shadow);
       overflow: hidden;
-      transform: translateY(18px);
       opacity: 0;
-      animation: fadeUp 1s 0.25s ease forwards;
-    }
-
-    .card-top {
-      background: linear-gradient(135deg, var(--rose-700), var(--rose-500));
-      color: white;
-      padding: 1.1rem 1.2rem;
-      text-align: center;
-      font-weight: 700;
-      letter-spacing: 0.05em;
+      transform: translateY(18px);
+      animation: fadeUp 1s 0.3s ease forwards;
     }
 
     .card-body {
@@ -173,13 +322,8 @@
       color: var(--wine);
     }
 
-    button:hover {
-      transform: translateY(-2px);
-    }
-
-    button:active {
-      transform: translateY(0);
-    }
+    button:hover { transform: translateY(-2px); }
+    button:active { transform: translateY(0); }
 
     .promise {
       margin-top: 1.4rem;
@@ -217,6 +361,13 @@
       animation: fadeUp 1s 0.5s ease forwards;
     }
 
+    @keyframes popIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     @keyframes fadeUp {
       to {
         opacity: 1;
@@ -225,6 +376,9 @@
     }
 
     @media (min-width: 760px) {
+      .hero-photo { padding: 1.2rem 1.6rem; }
+      .hero-content { bottom: 1.2rem; padding: 1.15rem 1.2rem 1rem; }
+      .strip-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
       .card-body { padding: 1.8rem; }
     }
   </style>
@@ -233,17 +387,27 @@
   <div class="hearts" id="hearts" aria-hidden="true"></div>
 
   <main class="wrap">
-    <section class="hero">
-      <h1>Happy Valentine&apos;s Day, My Love</h1>
-      <p>
-        This little page is for you. Every click is a reminder that you are my favorite part of every day.
-      </p>
+    <section class="hero" aria-label="Beverly memories">
+      <div class="hero-blur" id="heroBlur" aria-hidden="true"></div>
+      <div class="hero-slides" id="heroSlides" aria-hidden="true"></div>
+      <div class="hero-overlay" aria-hidden="true"></div>
+      <div class="hero-content">
+        <h1>Happy Valentine&apos;s Day, Beverly</h1>
+        <p>Every memory with you feels like home.</p>
+        <p class="hero-caption" id="heroCaption"></p>
+        <div class="hero-dots" id="heroDots" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <section class="memory-strip" aria-label="Photo memories">
+      <div class="strip-top">Our Memories</div>
+      <div class="strip-grid" id="stripGrid"></div>
     </section>
 
     <section class="letter-card">
       <div class="card-top">A Note For Her</div>
       <div class="card-body">
-        <p id="intro">Click below and I&apos;ll reveal what&apos;s on my heart.</p>
+        <p id="intro">Click below and I&apos;ll reveal what&apos;s on my heart for you, Beverly.</p>
         <div class="lines" id="lines"></div>
         <div class="controls">
           <button class="primary" id="revealBtn">Reveal Message</button>
@@ -251,7 +415,7 @@
         </div>
         <div class="promise" id="promise">
           <h2>My Promise</h2>
-          <p>I will keep choosing you, celebrating you, and building beautiful days with you.</p>
+          <p>I will keep choosing you, Beverly, celebrating you, and building beautiful days with you.</p>
         </div>
       </div>
     </section>
@@ -260,9 +424,19 @@
   </main>
 
   <script>
+    const memories = [
+      { src: "images/beverly_young.jpeg", caption: "From the very beginning, you were unforgettable." },
+      { src: "images/beverly_snow_slay.jpeg", caption: "You bring warmth, even in the coldest moments." },
+      { src: "images/beverly_water_fountain.jpeg", caption: "Everywhere we go feels brighter with you." },
+      { src: "images/beverly_signature_wall.jpeg", caption: "You leave your mark in every beautiful place." },
+      { src: "images/beverly_in_arizona.jpeg", caption: "Adventures are sweeter when they are with you." },
+      { src: "images/beverly_million_dollar.jpeg", caption: "You are truly one in a million, Beverly." },
+      { src: "images/beverly_and_star.jpg", caption: "My favorite view is us, together." }
+    ];
+
     const messageLines = [
-      "You make ordinary moments feel magical.",
-      "Your smile is my favorite view.",
+      "Beverly, you make ordinary moments feel magical.",
+      "Your smile is still my favorite view.",
       "Loving you is the easiest choice I have ever made.",
       "Thank you for being my safe place and my adventure."
     ];
@@ -274,8 +448,15 @@
     const hearts = document.getElementById("hearts");
     const dateLine = document.getElementById("dateLine");
 
+    const heroBlur = document.getElementById("heroBlur");
+    const heroSlides = document.getElementById("heroSlides");
+    const heroCaption = document.getElementById("heroCaption");
+    const heroDots = document.getElementById("heroDots");
+    const stripGrid = document.getElementById("stripGrid");
+
     let shown = 0;
     let heartTimer;
+    let currentMemory = 0;
 
     function addHeart() {
       const h = document.createElement("span");
@@ -289,8 +470,76 @@
 
     function burstHearts(count = 18) {
       for (let i = 0; i < count; i++) {
-        setTimeout(addHeart, i * 110);
+        setTimeout(addHeart, i * 100);
       }
+    }
+
+    function setupPhotoUI() {
+      memories.forEach((item, index) => {
+        const blur = document.createElement("img");
+        blur.className = "hero-blur-img";
+        blur.src = item.src;
+        blur.alt = "";
+        blur.decoding = "async";
+        blur.loading = index === 0 ? "eager" : "lazy";
+        heroBlur.appendChild(blur);
+
+        const slide = document.createElement("div");
+        slide.className = "hero-slide";
+        const photo = document.createElement("img");
+        photo.className = "hero-photo";
+        photo.src = item.src;
+        photo.alt = `Beverly memory ${index + 1}`;
+        photo.decoding = "async";
+        photo.loading = index === 0 ? "eager" : "lazy";
+        slide.appendChild(photo);
+        heroSlides.appendChild(slide);
+
+        const dot = document.createElement("span");
+        dot.className = "dot";
+        heroDots.appendChild(dot);
+
+        const thumb = document.createElement("figure");
+        thumb.className = "thumb";
+        thumb.style.animationDelay = `${100 + index * 60}ms`;
+        const thumbImg = document.createElement("img");
+        thumbImg.src = item.src;
+        thumbImg.alt = `Beverly memory preview ${index + 1}`;
+        thumbImg.loading = "lazy";
+        thumbImg.decoding = "async";
+        thumb.appendChild(thumbImg);
+        stripGrid.appendChild(thumb);
+      });
+
+      renderHero(0, false);
+    }
+
+    function renderHero(index, animate = true) {
+      const blurImages = heroBlur.querySelectorAll(".hero-blur-img");
+      const slides = heroSlides.querySelectorAll(".hero-slide");
+      const dots = heroDots.querySelectorAll(".dot");
+
+      blurImages.forEach((img, i) => img.classList.toggle("active", i === index));
+      slides.forEach((slide, i) => slide.classList.toggle("active", i === index));
+      dots.forEach((dot, i) => dot.classList.toggle("active", i === index));
+
+      if (!animate) {
+        heroCaption.classList.remove("show");
+        heroCaption.textContent = memories[index].caption;
+        requestAnimationFrame(() => heroCaption.classList.add("show"));
+        return;
+      }
+
+      heroCaption.classList.remove("show");
+      setTimeout(() => {
+        heroCaption.textContent = memories[index].caption;
+        heroCaption.classList.add("show");
+      }, 140);
+    }
+
+    function nextMemory() {
+      currentMemory = (currentMemory + 1) % memories.length;
+      renderHero(currentMemory);
     }
 
     revealBtn.addEventListener("click", () => {
@@ -324,6 +573,8 @@
       year: "numeric"
     })}.`;
 
+    setupPhotoUI();
+    setInterval(nextMemory, 4200);
     setTimeout(() => burstHearts(12), 400);
   </script>
 </body>
