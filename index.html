@@ -393,14 +393,14 @@
       <div class="hero-overlay" aria-hidden="true"></div>
       <div class="hero-content">
         <h1>Happy Valentine&apos;s Day, Beverly</h1>
-        <p>Every memory with you feels like home.</p>
+        <p>I love you so much ❤️ </p>
         <p class="hero-caption" id="heroCaption"></p>
         <div class="hero-dots" id="heroDots" aria-hidden="true"></div>
       </div>
     </section>
 
     <section class="memory-strip" aria-label="Photo memories">
-      <div class="strip-top">Our Memories</div>
+      <div class="strip-top">My Favorite Memories</div>
       <div class="strip-grid" id="stripGrid"></div>
     </section>
 
@@ -415,7 +415,7 @@
         </div>
         <div class="promise" id="promise">
           <h2>My Promise</h2>
-          <p>I will keep choosing you, Beverly, celebrating you, and building beautiful days with you.</p>
+          <p>I will keep choosing you, celebrating you, and building beautiful days with you 😘😍🥰. You are the best thing that has ever happened to me 😊🫂. I love you so much ❤️❤️❤️. Ndiri kufadaya murudo! 🐝</p>
         </div>
       </div>
     </section>
@@ -424,15 +424,22 @@
   </main>
 
   <script>
-    const memories = [
+    const allMemories = [
       { src: "images/beverly_young.jpeg", caption: "From the very beginning, you were unforgettable." },
-      { src: "images/beverly_snow_slay.jpeg", caption: "You bring warmth, even in the coldest moments." },
-      { src: "images/beverly_water_fountain.jpeg", caption: "Everywhere we go feels brighter with you." },
-      { src: "images/beverly_signature_wall.jpeg", caption: "You leave your mark in every beautiful place." },
-      { src: "images/beverly_in_arizona.jpeg", caption: "Adventures are sweeter when they are with you." },
-      { src: "images/beverly_million_dollar.jpeg", caption: "You are truly one in a million, Beverly." },
-      { src: "images/beverly_and_star.jpg", caption: "My favorite view is us, together." }
+      { src: "images/beverly_snow_slay.jpeg", caption: "You drive me crazy every single day." },
+      { src: "images/beverly_water_fountain.jpeg", caption: "Seeing you happy bring me so much joy." },
+      { src: "images/beverly_signature_wall.jpeg", caption: "You have made your mark in the depths of my heart." },
+      { src: "images/beverly_in_arizona.jpeg", caption: "You are truly one in a million, Beverly." },
+      { src: "images/beverly_million_dollar.jpeg", caption: "You wear a smile like it's fashion." },
+      { src: "images/beverly_and_star.jpg", caption: "My favorite view is us, together." },
+      { src: "images/beverly_jacket.jpeg", caption: "You wear confidence so beautifully, Beverly." }
     ];
+
+    const heroMemories = allMemories.filter((item) =>
+      item.src !== "images/beverly_and_star.jpg" &&
+      item.src !== "images/beverly_signature_wall.jpeg" &&
+      item.src !== "images/beverly_jacket.jpeg"
+    );
 
     const messageLines = [
       "Beverly, you make ordinary moments feel magical.",
@@ -475,7 +482,7 @@
     }
 
     function setupPhotoUI() {
-      memories.forEach((item, index) => {
+      heroMemories.forEach((item, index) => {
         const blur = document.createElement("img");
         blur.className = "hero-blur-img";
         blur.src = item.src;
@@ -498,7 +505,9 @@
         const dot = document.createElement("span");
         dot.className = "dot";
         heroDots.appendChild(dot);
+      });
 
+      allMemories.forEach((item, index) => {
         const thumb = document.createElement("figure");
         thumb.className = "thumb";
         thumb.style.animationDelay = `${100 + index * 60}ms`;
@@ -525,20 +534,20 @@
 
       if (!animate) {
         heroCaption.classList.remove("show");
-        heroCaption.textContent = memories[index].caption;
+        heroCaption.textContent = heroMemories[index].caption;
         requestAnimationFrame(() => heroCaption.classList.add("show"));
         return;
       }
 
       heroCaption.classList.remove("show");
       setTimeout(() => {
-        heroCaption.textContent = memories[index].caption;
+        heroCaption.textContent = heroMemories[index].caption;
         heroCaption.classList.add("show");
       }, 140);
     }
 
     function nextMemory() {
-      currentMemory = (currentMemory + 1) % memories.length;
+      currentMemory = (currentMemory + 1) % heroMemories.length;
       renderHero(currentMemory);
     }
 
